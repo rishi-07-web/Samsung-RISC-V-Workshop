@@ -14,19 +14,19 @@ This task introduces the fundamental concepts of RISC-V Instruction Set Architec
 ### Implementation Steps
 
 #### 1. Commands to run C program in Ubantu
-![RISC-V GNU Toolchain Setup](image/vsd1.png)
+![RISC-V GNU Toolchain Setup](image/vsd-1.png)
 
 
 #### 2. C program for Sum of n integer
-![Cross-Compilation Workflow](image/vsd2.png)
+![Cross-Compilation Workflow](image/vsd-2.png)
 
 
 #### 3. Commands for Examination of generated RISC-V assembly code
-![Assembly Code Analysis](image/vsd3.png)
+![Assembly Code Analysis](image/vsd-3.png)
 
 
 #### 4. Memory Architecture Analysis (main function)
-![Memory Mapping Details](image/vsd4.png)
+![Memory Mapping Details](image/vsd-4.png)
 
 
 
