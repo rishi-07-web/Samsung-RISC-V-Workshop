@@ -119,9 +119,9 @@ Instruction Categories
 # i-type insruction
 ![riskv -task 3](image/r-type.png)
 # s and b type instruction
-![riskv -task 3](image/s-and-b-type.png)
+![riskv -task 3](image/s-type.png)
 # u and j type instruction
-![riskv -task 3](image/u-and-j-type.png)
+![riskv -task 3](image/u-type.png)
 
 # 1.addi(I-type)
 - Instruction: addi a5, a5, 1
