@@ -114,6 +114,15 @@ Instruction Categories
 - Branch and Jump Instructions:
   - Jump (J): Unconditional branch to a specified address.
   - Branch (B): Conditional branch based on a comparison.
+# r-type instruction
+![riskv -task 3](image/r-type.png)
+# i-type insruction
+![riskv -task 3](image/r-type.png)
+# s and b type instruction
+![riskv -task 3](image/s-and-b-type.png)
+# u and j type instruction
+![riskv -task 3](image/u-and-j-type.png)
+
 # 1.addi(I-type)
 - Instruction: addi a5, a5, 1
 - Binary: 0x00178793
@@ -216,29 +225,4 @@ Fields:
   - funct3: 001 (shift left logical)
   - rd: 01100 (a2)
   - 32-bit Representation: `0x00A5C
-# 13.lui(U-type)
-Instruction: lui a0, 0x1
-Fields:
-  - opcode: 0110111 (U-type)
-  - rd: 01010 (a0)
-  - imm[31:12]: 000000000001
-32-bit Representation: 0x00001537
-# 14.ltiu(I-type)
-- instruction ltiu a4, a1, 10
-Fields:
-  - opcode: 0010011 (I-type)
-  - rd: 01110 (a4)
-  - rs1: 01011 (a1)
-  - funct3: 011 (sltiu)
-  - imm[11:0]: 000000001010 (10)
-32-bit Representation: 0x00A5E593
-# 15.beq( SB-type)
- - Instruction: beq a0, a1, 16
-Fields:
-  - opcode: 1100011 (SB-type)
-  - funct3: 000 (beq)
-  - rs1: 01010 (a0)
-  - rs2: 01011 (a1)
-  - imm[12|10:5|4:1|11]: 000000001000 (split for offset 16)
-  - 32-bit Representation: 0x00858663
 
