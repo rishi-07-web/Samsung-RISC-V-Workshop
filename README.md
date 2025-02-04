@@ -7,6 +7,7 @@
 - [Task 1: RISC-V ISA and GNU Toolchain](#task-1-risc-v-isa-and-gnu-toolchain)
 - [Task 2: RISC-V Architecture Analysis](#task-2-risc-v-architecture-analysis)
 - [Task 3: RISC-V Instruction Sets](#task-3-risc-v-instruction-sets)
+- [Task 4: RISC-V Functional Simulation](#task-4-risc-v-functional-simulation)
 ## Task 1: RISC-V ISA and GNU Toolchain
 
 ### Overview
@@ -232,4 +233,35 @@ end
 //WRITE BACK STAGE END
 
 endmodule
+
+## Task 4: RISC-V Functional Simulation
+### add r6,r3,r2 //32'h02328400
+![Screenshot 2025-02-04 154801](https://github.com/user-attachments/assets/1c6fac7f-1ec6-4ea2-b493-d4707f81abec)
+### sub r7,r4,r2 //32'h02429380;     
+![Screenshot 2025-02-04 154830](https://github.com/user-attachments/assets/04c31289-1629-42da-970a-9f0cc6f7a040)
+###  and r8,r6,r3 //32'h0263a400
+![Screenshot 2025-02-04 154846](https://github.com/user-attachments/assets/4146502c-2653-4014-9eb5-103bbe040ce1)
+###  or r9,r7,r5 //32'h02743480
+![Screenshot 2025-02-04 154904](https://github.com/user-attachments/assets/ef7c01c7-3308-4171-adf1-f418a0d13778)
+### xor r10,r8,r4 //32'h0284c500
+![Screenshot 2025-02-04 154928](https://github.com/user-attachments/assets/39ff8442-8907-4de3-8906-827ab6c248ca)
+### slt r11,r9,r4 //32'h02955580
+![Screenshot 2025-02-04 154937](https://github.com/user-attachments/assets/cf0aad0a-cfaf-4cf4-9d20-719c6ca42639)
+### addi r12,r10,5 //32'h00A60600
+![Screenshot 2025-02-04 154947](https://github.com/user-attachments/assets/9609aff6-b572-4ad7-b33b-772877dbd75d)
+### sw r5,r9,5 // 32'h00518181 
+![Screenshot 2025-02-04 154959](https://github.com/user-attachments/assets/d05b75ae-4f67-492f-8b3a-fdf3d29116b0)
+###  lw r13,r6,6 //32'h00628681
+![Screenshot 2025-02-04 155010](https://github.com/user-attachments/assets/221f3984-b3b9-47bc-8a71-a2946a8fe93e)
+###  beq r1,r1,15 //32'h00f10002
+![Screenshot 2025-02-04 155020](https://github.com/user-attachments/assets/60df0192-b1f1-4da8-91c2-5d4d761da161)
+
+
+
+
+
+
+
+
+
 
