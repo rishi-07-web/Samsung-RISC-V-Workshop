@@ -5,10 +5,11 @@
 ## Table of Contents
 | 🏗️ Task | 📂 Description | 🔗 Link |
 |---------|--------------|---------|
-| 1️⃣ | RISC-V ISA and GNU Toolchain | [Jump to Section](#task-1-risc-v-isa-and-gnu-toolchain) |
-| 2️⃣ | RISC-V Architecture Analysis | [Jump to Section](#task-2-risc-v-architecture-analysis) |
-| 3️⃣ | RISC-V Instruction Sets | [Jump to Section](#task-3-risc-v-instruction-sets) |
-| 4️⃣ | RISC-V Functional Simulation | [Jump to Section](#task-4-risc-v-functional-simulation) |
+| 1️ | RISC-V ISA and GNU Toolchain | [Jump to Section](#task-1-risc-v-isa-and-gnu-toolchain) |
+| 2️ | RISC-V Architecture Analysis | [Jump to Section](#task-2-risc-v-architecture-analysis) |
+| 3️ | RISC-V Instruction Sets | [Jump to Section](#task-3-risc-v-instruction-sets) |
+| 4️ | RISC-V Functional Simulation | [Jump to Section](#task-4-risc-v-functional-simulation) |
+| 5 | RISC-V Project Documentation | [Jump to Section](#task-5-risc-v-project-documentation) |
 ## Task 1: RISC-V ISA and GNU Toolchain
 
 ### Overview
@@ -256,6 +257,62 @@ endmodule
 ![Screenshot 2025-02-04 155010](https://github.com/user-attachments/assets/221f3984-b3b9-47bc-8a71-a2946a8fe93e)
 ###  beq r1,r1,15 //32'h00f10002
 ![Screenshot 2025-02-04 155020](https://github.com/user-attachments/assets/60df0192-b1f1-4da8-91c2-5d4d761da161)
+
+## Task 5: RISC-V Project Documentation
+
+
+# **Automated Door Opening and Closing System**
+
+## **Introduction**
+In today’s world, automation has become a key component in various sectors, enhancing convenience, security, and hygiene. One of the most widely implemented automation systems is the **automatic door opening and closing system**, which is extensively used in commercial buildings, hospitals, and smart homes. This document explores the design, working principle, and applications of an automatic door system based on **ultrasonic sensors and servo motors**.
+
+## **System Overview**
+The automatic door system is designed to detect the presence of a person using an **HC-SR04 ultrasonic sensor** and control the movement of a **servo motor (SG90)** to open and close the door. The entire process is managed by a **microcontroller**, which processes the sensor data and sends the appropriate signals to the motor.
+
+## **Components Used**
+The system primarily consists of the following components:
+1. **HC-SR04 Ultrasonic Sensor** – Detects the presence of an approaching person by measuring distance using ultrasonic waves.
+2. **Microcontroller Unit** – Processes sensor data and controls the servo motor.
+3. **SG90 Servo Motor** – Mechanically operates the door by rotating to open and close it.
+4. **Power Supply Unit** – Provides the necessary voltage and current to the circuit.
+
+## **Working Principle**
+### **1. Detection Using Ultrasonic Sensor**
+The **HC-SR04 ultrasonic sensor** emits high-frequency sound waves and measures the time it takes for the waves to bounce back after hitting an object. Based on this time, it calculates the distance of the object (person) from the door.
+- If the detected distance is within a predefined threshold (e.g., **less than 50 cm**), the sensor sends a signal to the microcontroller to trigger the door-opening mechanism.
+
+### **2. Processing by the Microcontroller**
+Once the microcontroller receives the signal from the sensor, it processes the information and generates a control signal for the **servo motor**.
+
+### **3. Servo Motor Operation**
+The **SG90 servo motor** is responsible for the movement of the door. It operates in the following manner:
+- When an object is detected, the servo rotates to **open** the door.
+- After a certain delay (e.g., **5 seconds**), if no object is detected, the servo rotates back to **close** the door.
+
+## **Block Diagram Representation**
+![Untitled design](https://github.com/user-attachments/assets/2c3b2f1b-335d-4604-aa5f-34072ef08bfb)
+The block diagram consists of:
+- An **ultrasonic sensor** connected to the microcontroller for distance measurement.
+- A **servo motor** linked to the microcontroller to operate the door.
+- Power connections to supply voltage to all components.
+
+## **Advantages of Automatic Doors**
+- **Touchless Operation:** Enhances hygiene, especially in hospitals and high-traffic areas.
+- **Energy Efficiency:** Reduces heat and air conditioning losses by opening only when needed.
+- **Security:** Restricts unauthorized access and integrates well with authentication systems.
+- **Convenience:** Provides easy access for people carrying luggage, disabled individuals, or elderly users.
+
+## **Applications**
+1. **Smart Homes:** Enhances home automation by enabling automatic access.
+2. **Office Buildings:** Provides a seamless and modern entry system.
+3. **Hospitals & Healthcare Facilities:** Prevents contamination through hands-free door operation.
+4. **Public & Commercial Spaces:** Used in malls, airports, and hotels for smooth movement of people.
+
+## **Future Enhancements**
+While the current system operates effectively, additional features can be integrated to enhance its functionality:
+- **Integration with RFID or Facial Recognition** for selective access control.
+- **Voice Control or Mobile App Connectivity** for remote door operation.
+- **AI-based Detection** to differentiate between humans and objects.
 
 
 
