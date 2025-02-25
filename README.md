@@ -2,12 +2,13 @@
 
 # Samsung RISC-V Workshop Documentation
 
-
 ## Table of Contents
-- [Task 1: RISC-V ISA and GNU Toolchain](#task-1-risc-v-isa-and-gnu-toolchain)
-- [Task 2: RISC-V Architecture Analysis](#task-2-risc-v-architecture-analysis)
-- [Task 3: RISC-V Instruction Sets](#task-3-risc-v-instruction-sets)
-- [Task 4: RISC-V Functional Simulation](#task-4-risc-v-functional-simulation)
+| 🏗️ Task | 📂 Description | 🔗 Link |
+|---------|--------------|---------|
+| 1️⃣ | RISC-V ISA and GNU Toolchain | [Jump to Section](#task-1-risc-v-isa-and-gnu-toolchain) |
+| 2️⃣ | RISC-V Architecture Analysis | [Jump to Section](#task-2-risc-v-architecture-analysis) |
+| 3️⃣ | RISC-V Instruction Sets | [Jump to Section](#task-3-risc-v-instruction-sets) |
+| 4️⃣ | RISC-V Functional Simulation | [Jump to Section](#task-4-risc-v-functional-simulation) |
 ## Task 1: RISC-V ISA and GNU Toolchain
 
 ### Overview
