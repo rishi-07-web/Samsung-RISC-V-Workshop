@@ -301,9 +301,168 @@ The block diagram consists of:
 - **Energy Efficiency:** Reduces heat and air conditioning losses by opening only when needed.
 - **Security:** Restricts unauthorized access and integrates well with authentication systems.
 - **Convenience:** Provides easy access for people carrying luggage, disabled individuals, or elderly users.
+## Task 6: RISC-V Project presentation
+```cpp
+#include <ch32v00x.h>
+#include <debug.h>
 
+/* Distance threshold in cm for detecting a person */
+#define PERSON_DETECTION_THRESHOLD 50 
 
+/* Function prototypes */
+void TIM1_PWMOut_Init(uint16_t arr, uint16_t psc, uint16_t ccp);
+void GPIO_Config(void);
+uint32_t Ultrasonic_Read(void);
+float Calculate_Distance(uint32_t echoTime);
+void Set_Servo_Angle(uint8_t angle);
 
+/* Function to initialize PWM on Timer 1 for the servo motor */
+void TIM1_PWMOut_Init(uint16_t arr, uint16_t psc, uint16_t ccp)
+{
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    TIM_OCInitTypeDef TIM_OCInitStructure = {0};
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure = {0};
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP; // Alternate Function Push-Pull
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+    TIM_TimeBaseInitStructure.TIM_Period = arr;
+    TIM_TimeBaseInitStructure.TIM_Prescaler = psc;
+    TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseInit(TIM1, &TIM_TimeBaseInitStructure);
+
+    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+    TIM_OCInitStructure.TIM_Pulse = ccp;
+    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+    TIM_OC1Init(TIM1, &TIM_OCInitStructure);
+    TIM_CtrlPWMOutputs(TIM1, ENABLE);
+    TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Disable);
+    TIM_ARRPreloadConfig(TIM1, ENABLE);
+    TIM_Cmd(TIM1, ENABLE);
+}
+
+/* Function to configure GPIO Pins */
+void GPIO_Config(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+
+    // Pin 3: Input for Ultrasonic sensor echo
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Input with Pull-Up
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    // Pin 4: Output for Ultrasonic sensor trigger
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output Push-Pull
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    // Pin 6: LED indicator
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output Push-Pull
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+}
+
+/* Function to trigger the ultrasonic sensor and read the echo duration */
+uint32_t Ultrasonic_Read(void)
+{
+    uint32_t echoTime = 0;
+    uint32_t timeout = 1000000; // Timeout to prevent infinite loops
+
+    GPIO_WriteBit(GPIOD, GPIO_Pin_4, SET); // Trigger Pulse
+    Delay_Us(10);
+    GPIO_WriteBit(GPIOD, GPIO_Pin_4, RESET);
+
+    while (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3) == Bit_RESET && timeout--); // Wait for Echo start
+    if (timeout == 0) return 0; // Timeout, no valid signal
+
+    timeout = 1000000; // Reset timeout
+    while (GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_3) == Bit_SET && timeout--) echoTime++; // Measure Echo time
+
+    return (timeout == 0) ? 0 : echoTime; // Return 0 if timeout
+}
+
+/* Function to calculate distance from echo time */
+float Calculate_Distance(uint32_t echoTime)
+{
+    return (echoTime * 0.0343) / 2; // Convert time to distance in cm
+}
+
+/* Function to set servo motor angle (0° to 90° for door open/close) */
+void Set_Servo_Angle(uint8_t angle)
+{
+    uint16_t pulseWidth;
+
+    // Map angle (0°–180°) to pulse width (1ms–2ms) in 20ms period
+    pulseWidth = 1000 + ((angle * 1000) / 180); 
+
+    // Set PWM with mapped pulse width
+    TIM1_PWMOut_Init(20000 - 1, 48 - 1, pulseWidth);
+}
+
+/* Main function */
+int main(void)
+{
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    SystemCoreClockUpdate();
+    Delay_Init();
+    GPIO_Config();
+    USART_Printf_Init(115200); // Initialize debug USART
+
+    printf("Automatic Door System Initialized\n");
+
+    while (1)
+    {
+        uint32_t echoTime = Ultrasonic_Read();
+        if (echoTime == 0)
+        {
+            printf("Ultrasonic Sensor Timeout! No valid reading.\n");
+            continue;
+        }
+
+        float distance = Calculate_Distance(echoTime);
+        printf("Distance: %.2f cm\n", distance);
+
+        if (distance < PERSON_DETECTION_THRESHOLD) // If a person is detected
+        {
+            GPIO_WriteBit(GPIOD, GPIO_Pin_6, Bit_SET); // Turn on LED
+            printf("Person detected! Opening door...\n");
+            Set_Servo_Angle(90); // Open door
+        }
+        else
+        {
+            GPIO_WriteBit(GPIOD, GPIO_Pin_6, Bit_RESET); // Turn off LED
+            printf("No person detected. Closing door...\n");
+            Set_Servo_Angle(0); // Close door
+        }
+
+        Delay_Ms(1000); // Wait before checking again
+    }
+}
+```
+### working vedio
+https://github.com/user-attachments/assets/ae277ebb-9152-4361-b579-fbfa4ff6f846
+
+### **Conclusion of the Automatic Door System Project**  
+
+This project successfully implements an **automatic door system** using an **ultrasonic sensor** for detecting people and a **servo motor** for door movement. The system efficiently calculates distance, determines whether a person is within the detection threshold, and controls the door accordingly.  
+
+Key takeaways:  
+✅ **Reliable Person Detection** – Uses an ultrasonic sensor to measure distance accurately.  
+✅ **Efficient Door Control** – A servo motor opens the door when a person is detected and closes it otherwise.  
+✅ **Visual & Debugging Feedback** – An LED indicator signals detection, and a USART debug output provides real-time status updates.  
+✅ **Potential Enhancements** – Future improvements could include **motion smoothing**, **manual override**, or **power optimization**.  
+
+Overall, this project demonstrates a **practical, real-time embedded system** with **real-world applications** in **security, automation, and accessibility**. 
 
 
 
